@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    //[子]BottomAppBarについて
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/bottom_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_gravity="bottom"
+        app:backgroundTint="@color/colorPrimary"
+        app:fabAlignmentMode="center" >
+
+        //[子の子]BottomNavigationViewについて bnv_menu.xmlを読み込む
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigationView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:itemIconTint="#ffffff"
+            app:itemTextColor="#ffffff"
+            app:menu="@menu/bnv_menu" />
+
+</com.google.android.material.bottomappbar.BottomAppBar>
+
+    //[子]FloatingActionButtonについて
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/plusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_anchor="@id/bottom_app_bar"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
