@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.actions"
-            android:resource="@xml/bnv_menu" />
+            android:resource="@menu/bnv_menu" />
 
         <activity android:name=".MainActivity">
             <intent-filter>
