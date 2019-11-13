@@ -11,14 +11,18 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        //NavigationViewを選択した時
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
 
                 R.id.graph -> {
+                    //Fragmentの追加や削除などの変更を行う時はTransactionを利用する
                     val transaction = supportFragmentManager.beginTransaction()
+                    //Fragmentの作成
                     val graphFragment = GraphFragment()
+                    //Fragmentを組み込む(Fragmentの入るID,挿入するFragment)
                     transaction.replace(R.id.container, graphFragment)
+                    //変更を保存する
                     transaction.commit()
                     return@setOnNavigationItemSelectedListener true
                 }
