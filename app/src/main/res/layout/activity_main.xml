@@ -6,12 +6,19 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></FrameLayout>
 
 
     //[子]BottomAppBarについて
+
+    <FrameLayout
+        android:id="@+id/containerPlus"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        app:layout_anchor="@+id/container"
+        app:layout_anchorGravity="center"></FrameLayout>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"

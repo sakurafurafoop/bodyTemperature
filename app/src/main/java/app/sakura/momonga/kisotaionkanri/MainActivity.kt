@@ -14,29 +14,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        //plusボタンを押す
         plusButton.setOnClickListener {
 
-            val builder: AlertDialog.Builder? = this?.let {
-                AlertDialog.Builder(this)
-
-            }
-            builder?.apply {
-                setPositiveButton("ok",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User clicked OK button
-                    })
-                setNegativeButton("no",
-                    DialogInterface.OnClickListener { dialog, id ->
-                        // User cancelled the dialog
-                    })
-            }
-
-            builder?.setMessage("やっほ")
-
-
-            val dialog: AlertDialog? = builder?.create()
-
+            val transition = supportFragmentManager.beginTransaction()
+            val plusFragment = PlusFragment()
+            transition.replace(R.id.containerPlus,plusFragment)
+            transition.commit()
         }
+
+
 
         //NavigationViewを選択した時
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
