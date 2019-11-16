@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var mRealm:Realm
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -17,10 +19,8 @@ class MainActivity : AppCompatActivity() {
         //plusボタンを押す
         plusButton.setOnClickListener {
 
-            val transition = supportFragmentManager.beginTransaction()
             val plusFragment = PlusFragment()
-            transition.replace(R.id.containerPlus,plusFragment)
-            transition.commit()
+            plusFragment.show(supportFragmentManager,"tag")
         }
 
 
@@ -53,5 +53,13 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
+        Realm.init(this)
+        mRealm = Realm.getDefaultInstance()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mRealm.close()
     }
 }

@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.NumberPicker
 import androidx.fragment.app.DialogFragment
+import kotlinx.android.synthetic.main.fragment_plus.view.*
 
 class PlusFragment : DialogFragment() {
 
@@ -23,10 +24,13 @@ class PlusFragment : DialogFragment() {
             val builder = AlertDialog.Builder(it)
             // Get the layout inflater
             val inflater = requireActivity().layoutInflater;
+            val view = inflater.inflate(R.layout.fragment_plus,null)
+            view.numberPicker.maxValue = 40
+            view.numberPicker.minValue = 30
 
-            // Inflate and set the layout for the dialog
-            // Pass null as the parent view because its going in the dialog layout
-            builder.setView(inflater.inflate(R.layout.fragment_plus, null))
+
+
+            builder.setView(view)
 
             builder.create()
         } ?: throw IllegalStateException("Activity cannot be null")
