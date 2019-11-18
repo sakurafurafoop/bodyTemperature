@@ -3,6 +3,7 @@ package app.sakura.momonga.kisotaionkanri
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_list.*
 import java.util.*
 
@@ -33,7 +35,12 @@ class ListFragment : Fragment() {
     //viewが生成された
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        Realm.init(context)
+        val mRealm = Realm.getDefaultInstance()
+        val resultArray = mRealm.where(SaveModel::class.java).findAll()
+        for(result in resultArray){
+            Log.d("tag",result.temperature.toString())
+        }
         viewManager = LinearLayoutManager(context)
         viewAdapter = MyAdapter(listDataSet)
 

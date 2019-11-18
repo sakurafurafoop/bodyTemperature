@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#C94C9EC4"
+    android:background="#4392F1"
     tools:context=".PlusFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -12,31 +12,36 @@
     <TextView
         android:id="@+id/titleView"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="39dp"
         android:text="今日の体温は？"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/numberPicker"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <NumberPicker
-        android:id="@+id/numberPicker"
+        android:id="@+id/numberPikumin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="11dp"
+        android:layout_marginBottom="54dp"
+        app:layout_constraintBottom_toTopOf="@+id/okButton"
+        app:layout_constraintEnd_toEndOf="@+id/okButton"
         app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
     <Button
         android:id="@+id/okButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="300dp"
+        android:layout_marginBottom="361dp"
+        android:backgroundTint="#f36a48"
         android:text="OK"
+        android:textColor="#f9f9fb"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/numberPicker" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

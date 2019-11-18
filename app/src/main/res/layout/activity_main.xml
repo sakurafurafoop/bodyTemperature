@@ -3,12 +3,13 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f9f9Fb">
 
     <FrameLayout
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"></FrameLayout>
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
 
 
     //[子]BottomAppBarについて
@@ -25,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary"
+        app:backgroundTint="#4392F1"
         app:fabAlignmentMode="center">
 
         //[子の子]BottomNavigationViewについて bnv_menu.xmlを読み込む
@@ -34,8 +35,8 @@
             android:id="@+id/bottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:itemIconTint="#ffffff"
-            app:itemTextColor="#ffffff"
+            app:itemIconTint="#f9f9Fb"
+            app:itemTextColor="#f9f9Fb"
             app:menu="@menu/bnv_menu" />
 
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -47,6 +48,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_white_24dp"
+        app:backgroundTint="#F36A48"
         app:layout_anchor="@id/bottom_app_bar" />
 
 
