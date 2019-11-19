@@ -9,27 +9,24 @@
     <FrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        android:layout_height="match_parent" />
 
-
-    //[子]BottomAppBarについて
 
     <FrameLayout
         android:id="@+id/containerPlus"
         android:layout_width="260dp"
         android:layout_height="260dp"
         app:layout_anchor="@+id/container"
-        app:layout_anchorGravity="center"></FrameLayout>
+        app:layout_anchorGravity="center" />
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="bottom"
-        app:backgroundTint="#4392F1"
+        app:backgroundTint="#5BC0EB"
         app:fabAlignmentMode="center">
-
-        //[子の子]BottomNavigationViewについて bnv_menu.xmlを読み込む
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigationView"
@@ -41,7 +38,6 @@
 
     </com.google.android.material.bottomappbar.BottomAppBar>
 
-    //[子]FloatingActionButtonについて
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/plusButton"

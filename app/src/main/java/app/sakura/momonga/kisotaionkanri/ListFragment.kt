@@ -21,7 +21,7 @@ class ListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
-    val listDataSet = listOf<ListData>(ListData(date = Date(),temperature = 36.5F),ListData(date = Date(),temperature = 36.3F),ListData(date = Date(),temperature = 36.2F))
+    val listDataSet = mutableListOf<ListData>(ListData(date = Date(),temperature = 36.5F),ListData(date = Date(),temperature = 36.3F),ListData(date = Date(),temperature = 36.2F))
 
     //フラグメントのviewを生成するところ
     override fun onCreateView(
@@ -40,6 +40,7 @@ class ListFragment : Fragment() {
         val resultArray = mRealm.where(SaveModel::class.java).findAll()
         for(result in resultArray){
             Log.d("tag",result.temperature.toString())
+            listDataSet.add(ListData(date = Date(),temperature = result.temperature.toFloat()))
         }
         viewManager = LinearLayoutManager(context)
         viewAdapter = MyAdapter(listDataSet)

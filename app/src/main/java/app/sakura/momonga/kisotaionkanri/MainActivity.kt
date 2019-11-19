@@ -1,26 +1,30 @@
 package app.sakura.momonga.kisotaionkanri
 
-import android.content.DialogInterface
-import android.content.Intent
+import android.app.*
+import android.content.Context
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
+import androidx.annotation.RequiresApi
+import androidx.core.app.NotificationCompat
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mRealm:Realm
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
 
         //plusボタンを押す
         plusButton.setOnClickListener {
 
             val plusFragment = PlusFragment()
             plusFragment.show(supportFragmentManager,"tag")
+            sendNotification("体温を計りましょう！","おはようございます！")
         }
 
 
@@ -61,5 +65,33 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mRealm.close()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendNotification(contentTitle: String,contentText:String) {
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        val name = "通知の情報を設定"
+        val id = "casareal_chanel"
+        val notifyDescription = "この通知の詳細情報を設定します"
+
+
+        if (notificationManager.getNotificationChannel(id) == null) {
+            val mChannel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
+            mChannel.apply {
+                description = notifyDescription
+            }
+            notificationManager.createNotificationChannel(mChannel)
+        }
+
+        val notification = NotificationCompat
+            .Builder(this, id)
+            .apply {
+                setSmallIcon(R.drawable.ic_launcher_background)
+                setContentTitle(contentTitle)
+                setContentText(contentText)
+            }.build()
+        notificationManager.notify(1, notification)
     }
 }

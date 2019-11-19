@@ -7,7 +7,7 @@ import java.util.*
 
 open class SaveModel (
     @PrimaryKey
-    open var id: Int = 0,
+    open var id: String = UUID.randomUUID().toString(),
     open var temperature: Int = 0
     //open var date:Date = Date()
 ) : RealmObject() {}

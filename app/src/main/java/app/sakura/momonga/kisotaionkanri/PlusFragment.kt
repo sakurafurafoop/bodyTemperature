@@ -23,22 +23,21 @@ class PlusFragment : DialogFragment() {
 
             val inflater = requireActivity().layoutInflater;
             val view = inflater.inflate(R.layout.fragment_plus, null)
-            view.numberPikumin.maxValue = 99
-            view.numberPikumin.minValue = 0
+            view.numberPikumin.maxValue = 45
+            view.numberPikumin.minValue = 30
 
 //            val items:Array<String> = Array(100){i -> "%.1f".format(i * 0.1)}
-//
 //            numberPikumin.displayedValues = items
 
             builder.setView(view)
             builder.setPositiveButton("Yes",object :DialogInterface.OnClickListener{
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     Log.d("ok","ok")
-                    mRealm.executeTransaction {
+                    mRealm.executeTransaction { realm ->
                         var saveModel = mRealm.createObject(SaveModel::class.java , UUID.randomUUID().toString())
 
                         saveModel.temperature = view.numberPikumin.value
-                        mRealm.copyToRealm(saveModel)
+                        realm.copyToRealm(saveModel)
                     }
                 }
             })
