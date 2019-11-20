@@ -39,7 +39,6 @@ class ListFragment : Fragment() {
         val mRealm = Realm.getDefaultInstance()
         val resultArray = mRealm.where(SaveModel::class.java).findAll()
         for(result in resultArray){
-            Log.d("tag",result.temperature.toString())
             listDataSet.add(ListData(date = Date(),temperature = result.temperature.toFloat()))
         }
         viewManager = LinearLayoutManager(context)

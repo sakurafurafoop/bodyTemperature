@@ -2,13 +2,17 @@ package app.sakura.momonga.kisotaionkanri
 
 import android.app.*
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +28,8 @@ class MainActivity : AppCompatActivity() {
 
             val plusFragment = PlusFragment()
             plusFragment.show(supportFragmentManager,"tag")
-            sendNotification("体温を計りましょう！","おはようございます！")
+            sendAlerm()
+            //sendNotification("体温を計りましょう！","おはようございます！")
         }
 
 
@@ -66,7 +71,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mRealm.close()
     }
-
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendNotification(contentTitle: String,contentText:String) {
         val notificationManager =
@@ -93,5 +97,23 @@ class MainActivity : AppCompatActivity() {
                 setContentText(contentText)
             }.build()
         notificationManager.notify(1, notification)
+    }
+
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendAlerm(){
+        var calendar = Calendar.getInstance()
+        calendar.timeInMillis = System.currentTimeMillis()
+        calendar.add(Calendar.SECOND,5)
+
+        val intent = Intent(this,AlarmBroadcastReceiver::class.java)
+        val pending = PendingIntent.getBroadcast(this,0,intent,0)
+
+
+        var am : AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        am.setExact(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pending)
+
+        //sendNotification("体温をはかろう!","おはようございます")
     }
 }
