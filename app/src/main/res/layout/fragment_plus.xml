@@ -7,6 +7,10 @@
     android:background="#5BC0EB"
     tools:context=".PlusFragment">
 
+
+
+
+
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
@@ -14,6 +18,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="40dp"
+        android:gravity="center"
         android:text="今日の体温は？"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"

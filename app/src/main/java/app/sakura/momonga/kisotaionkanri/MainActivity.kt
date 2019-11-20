@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity() {
     fun sendAlerm(){
         var calendar = Calendar.getInstance()
         calendar.timeInMillis = System.currentTimeMillis()
-        calendar.add(Calendar.SECOND,5)
+        calendar.add(Calendar.SECOND,3)
 
         val intent = Intent(this,AlarmBroadcastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this,0,intent,0)
@@ -114,6 +114,5 @@ class MainActivity : AppCompatActivity() {
         var am : AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         am.setExact(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pending)
 
-        //sendNotification("体温をはかろう!","おはようございます")
     }
 }
