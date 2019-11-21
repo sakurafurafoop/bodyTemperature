@@ -16,6 +16,7 @@ class MyAdapter(private val listDataSet:List<ListData>):RecyclerView.Adapter<MyV
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.dateView.text = listDataSet[position].date.toString()
         holder.temperatureView.text = listDataSet[position].temperature.toString()
+        holder.plusminusView.text = listDataSet[position].difference.toString()
     }
 
     override fun getItemCount() = listDataSet.size
