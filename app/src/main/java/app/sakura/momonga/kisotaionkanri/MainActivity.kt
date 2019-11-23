@@ -71,33 +71,8 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         mRealm.close()
     }
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun sendNotification(contentTitle: String,contentText:String) {
-        val notificationManager =
-            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val name = "通知の情報を設定"
-        val id = "casareal_chanel"
-        val notifyDescription = "この通知の詳細情報を設定します"
 
 
-        if (notificationManager.getNotificationChannel(id) == null) {
-            val mChannel = NotificationChannel(id, name, NotificationManager.IMPORTANCE_HIGH)
-            mChannel.apply {
-                description = notifyDescription
-            }
-            notificationManager.createNotificationChannel(mChannel)
-        }
-
-        val notification = NotificationCompat
-            .Builder(this, id)
-            .apply {
-                setSmallIcon(R.drawable.ic_launcher_background)
-                setContentTitle(contentTitle)
-                setContentText(contentText)
-            }.build()
-        notificationManager.notify(1, notification)
-    }
 
 
 
