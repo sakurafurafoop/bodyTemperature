@@ -6,10 +6,10 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="360dp"
+        android:layout_width="320dp"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="40dp"
         android:layout_marginTop="8dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
@@ -21,25 +21,56 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/dateView"
+            <LinearLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:text="TextView" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/dateView"
+                    android:layout_width="100dp"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textSize="55sp" />
+
+                <TextView
+                    android:id="@+id/weekView"
+                    android:layout_width="100dp"
+                    android:layout_height="20dp"
+                    android:text="(Mon)"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/plusminusView"
+                    android:layout_width="100dp"
+                    android:layout_height="70dp"
+                    android:layout_weight="1"
+                    android:text="" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    app:srcCompat="@drawable/ic_show_chart_white_24dp" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/temperatureView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:text=""
-                android:textAlignment="center" />
+                android:gravity="center"
+                android:text="35.0"
+                android:textAlignment="center"
+                android:textSize="40sp" />
 
-            <TextView
-                android:id="@+id/plusminusView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

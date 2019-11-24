@@ -17,6 +17,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var mRealm:Realm
+
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +31,6 @@ class MainActivity : AppCompatActivity() {
             val plusFragment = PlusFragment()
             plusFragment.show(supportFragmentManager,"tag")
             sendAlerm()
-            //sendNotification("体温を計りましょう！","おはようございます！")
         }
 
 
@@ -79,15 +80,17 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendAlerm(){
         var calendar = Calendar.getInstance()
-        calendar.timeInMillis = System.currentTimeMillis()
-        calendar.add(Calendar.SECOND,3)
+        //calendar.timeInMillis = System.currentTimeMillis()
+        //calendar.add(Calendar.SECOND,3)
+        //var hour = calendar.get(Calendar.HOUR_OF_DAY)
 
         val intent = Intent(this,AlarmBroadcastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this,0,intent,0)
 
-
         var am : AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         am.setExact(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pending)
+
+
 
     }
 }

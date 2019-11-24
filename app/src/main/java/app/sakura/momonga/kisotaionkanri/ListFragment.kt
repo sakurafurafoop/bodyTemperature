@@ -39,7 +39,8 @@ class ListFragment : Fragment() {
         val mRealm = Realm.getDefaultInstance()
         val resultArray = mRealm.where(SaveModel::class.java).findAll()
         for(result in resultArray){
-            val differenceNum:Float = result.temperature.toFloat() - result.temperature.toFloat()
+            //val lastdayNum:Float = result[index].temperature.toFloat()
+            val differenceNum:Float = result.temperature.toFloat() /*- lastdayNum*/
             listDataSet.add(ListData(date = Date(),temperature = result.temperature.toFloat(),difference = differenceNum))
         }
         viewManager = LinearLayoutManager(context)
