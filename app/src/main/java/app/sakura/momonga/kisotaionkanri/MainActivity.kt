@@ -1,28 +1,37 @@
 package app.sakura.momonga.kisotaionkanri
 
 import android.app.*
-import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
+import java.time.Month
+import java.time.Year
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mRealm:Realm
+    var toolbarTitle:String = ""
+    var year: Int = 0
+    var month: Int = 0
+    var lastDay: Int = 0
+    val calendar = Calendar.getInstance()
 
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        year = calendar.get(Calendar.YEAR)
+        month = calendar.get(Calendar.MONTH)
+        lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
+        toolbar.setTitle(month.toString())
 
 
         //plusボタンを押す

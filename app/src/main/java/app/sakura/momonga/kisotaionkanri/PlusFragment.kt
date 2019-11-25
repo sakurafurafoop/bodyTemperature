@@ -26,16 +26,15 @@ class PlusFragment : DialogFragment() {
             view.numberPikumin.maxValue = 45
             view.numberPikumin.minValue = 30
 
-//            val items:Array<String> = Array(100){i -> "%.1f".format(i * 0.1)}
+//           val items:Array<String> = Array(100){i -> "%.1f".format(i * 0.1)}
 //            numberPikumin.displayedValues = items
 
             builder.setView(view)
             builder.setPositiveButton("Yes",object :DialogInterface.OnClickListener{
                 override fun onClick(dialog: DialogInterface?, which: Int) {
-                    Log.d("ok","ok")
                     mRealm.executeTransaction { realm ->
                         var saveModel = mRealm.createObject(SaveModel::class.java , UUID.randomUUID().toString())
-
+                        saveModel.date = Date()
                         saveModel.temperature = view.numberPikumin.value
                         realm.copyToRealm(saveModel)
                     }
