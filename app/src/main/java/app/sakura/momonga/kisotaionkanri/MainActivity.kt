@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     var toolbarTitle:String = ""
     var year: Int = 0
     var month: Int = 0
+    var day:Int = 0
     var lastDay: Int = 0
     val calendar = Calendar.getInstance()
 
@@ -30,14 +31,20 @@ class MainActivity : AppCompatActivity() {
 
         year = calendar.get(Calendar.YEAR)
         month = calendar.get(Calendar.MONTH)
+        day = calendar.get(Calendar.DATE)
         lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
         toolbar.setTitle(month.toString())
 
 
         //plusボタンを押す
         plusButton.setOnClickListener {
-
+            var bundle = Bundle()
+            bundle.putInt("KEY_YEAR",year)
+            bundle.putInt("KEY_MONTH",month)
+            bundle.putInt("KEY_DAY",day)
+            bundle.putInt("KEY_LASTDAY",lastDay)
             val plusFragment = PlusFragment()
+            plusFragment.arguments = bundle
             plusFragment.show(supportFragmentManager,"tag")
             sendAlerm()
         }
@@ -49,10 +56,15 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
 
                 R.id.graph -> {
+                    var bundle = Bundle()
+                    bundle.putInt("KEY_YEAR",year)
+                    bundle.putInt("KEY_MONTH",month)
+                    bundle.putInt("KEY_LASTDAY",lastDay)
                     //Fragmentの追加や削除などの変更を行う時はTransactionを利用する
                     val transaction = supportFragmentManager.beginTransaction()
                     //Fragmentの作成
                     val graphFragment = GraphFragment()
+                    graphFragment.arguments = bundle
                     //Fragmentを組み込む(Fragmentの入るID,挿入するFragment)
                     transaction.replace(R.id.container, graphFragment)
                     //変更を保存する
@@ -60,8 +72,13 @@ class MainActivity : AppCompatActivity() {
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.list -> {
+                    var bundle = Bundle()
+                    bundle.putInt("KEY_YEAR",year)
+                    bundle.putInt("KEY_MONTH",month)
+                    bundle.putInt("KEY_LASTDAY",lastDay)
                     val transaction = supportFragmentManager.beginTransaction()
                     val listFragment = ListFragment()
+                    listFragment.arguments = bundle
                     transaction.replace(R.id.container, listFragment)
                     transaction.commit()
                     return@setOnNavigationItemSelectedListener true
@@ -98,8 +115,6 @@ class MainActivity : AppCompatActivity() {
 
         var am : AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
         am.setExact(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pending)
-
-
 
     }
 }

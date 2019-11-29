@@ -14,12 +14,25 @@ import kotlinx.android.synthetic.main.fragment_plus.view.*
 import java.util.*
 
 class PlusFragment : DialogFragment() {
+    var plusYear: Int = 0
+    var plusMonth: Int = 0
+    var plusDay: Int = 0
+    var plusLastDay: Int = 0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         Realm.init(context)
         val mRealm = Realm.getDefaultInstance()
         return activity?.let {
             val builder = AlertDialog.Builder(it)
+
+            val bundle = arguments
+            if (bundle != null) {
+                plusYear = bundle.getInt("KEY_YEAR")
+                plusMonth = bundle.getInt("KEY_MONTH")
+                plusDay = bundle.getInt("KEY_DAY")
+                plusLastDay = bundle.getInt("KEY_LASTDAY")
+                Log.d("plusDay",plusDay.toString())
+            }
 
             val inflater = requireActivity().layoutInflater;
             val view = inflater.inflate(R.layout.fragment_plus, null)
@@ -34,10 +47,23 @@ class PlusFragment : DialogFragment() {
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     mRealm.executeTransaction { realm ->
                         var saveModel = mRealm.createObject(SaveModel::class.java , UUID.randomUUID().toString())
-                        saveModel.date = Date()
+                        val resultArray = mRealm.where(SaveModel::class.java).equalTo("year",plusYear).equalTo("month",plusMonth).equalTo("day",plusDay).findAll()
+
+                        for(result in resultArray){
+                            result.deleteFromRealm()
+                        }
+
+                        saveModel.day = plusDay
+                        saveModel.year = plusYear
+                        saveModel.month = plusMonth
                         saveModel.temperature = view.numberPikumin.value
                         realm.copyToRealm(saveModel)
                     }
+                }
+            })
+            builder.setNegativeButton("Cancel",object :DialogInterface.OnClickListener{
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+
                 }
             })
             builder.create()
