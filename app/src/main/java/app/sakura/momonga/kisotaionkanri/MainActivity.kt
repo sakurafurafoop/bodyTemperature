@@ -9,18 +9,16 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
-import java.time.Month
-import java.time.Year
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var mRealm:Realm
-    var toolbarTitle:String = ""
     var year: Int = 0
     var month: Int = 0
     var day:Int = 0
     var lastDay: Int = 0
+    var hour: Int = 0
     val calendar = Calendar.getInstance()
 
 
@@ -32,8 +30,11 @@ class MainActivity : AppCompatActivity() {
         year = calendar.get(Calendar.YEAR)
         month = calendar.get(Calendar.MONTH)
         day = calendar.get(Calendar.DATE)
+        hour = calendar.get(Calendar.HOUR_OF_DAY)
+        Log.d("hour",hour.toString())
         lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
-        toolbar.setTitle(month.toString())
+
+        toolbar.setTitle(changeSetTitle(month))
 
 
         //plusボタンを押す
@@ -46,7 +47,7 @@ class MainActivity : AppCompatActivity() {
             val plusFragment = PlusFragment()
             plusFragment.arguments = bundle
             plusFragment.show(supportFragmentManager,"tag")
-            sendAlerm()
+            sendMoriningAlerm()
         }
 
 
@@ -76,6 +77,7 @@ class MainActivity : AppCompatActivity() {
                     bundle.putInt("KEY_YEAR",year)
                     bundle.putInt("KEY_MONTH",month)
                     bundle.putInt("KEY_LASTDAY",lastDay)
+                    bundle.putInt("KEY_DAY",day)
                     val transaction = supportFragmentManager.beginTransaction()
                     val listFragment = ListFragment()
                     listFragment.arguments = bundle
@@ -100,21 +102,39 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-
-
-
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendAlerm(){
-        var calendar = Calendar.getInstance()
-        //calendar.timeInMillis = System.currentTimeMillis()
-        //calendar.add(Calendar.SECOND,3)
-        //var hour = calendar.get(Calendar.HOUR_OF_DAY)
+    fun sendMoriningAlerm(){
+        var alarmCalendar = Calendar.getInstance()
+        alarmCalendar.add(Calendar.HOUR_OF_DAY,24)
 
         val intent = Intent(this,AlarmBroadcastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this,0,intent,0)
 
         var am : AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        am.setExact(AlarmManager.RTC_WAKEUP,calendar.timeInMillis,pending)
+        am.setExact(AlarmManager.RTC_WAKEUP,alarmCalendar.timeInMillis,pending)
+    }
+
+    fun sendEvningAlerm(){
+
+    }
+
+    fun changeSetTitle(month:Int):String{
+        var title = ""
+        when(month){
+            0 -> title = "January"
+            1 -> title = "February"
+            2 -> title = "March"
+            3 -> title = "April"
+            4 -> title = "May"
+            5 -> title = "June"
+            6 -> title = "July"
+            7 -> title = "August"
+            8 -> title = "September"
+            9 -> title = "October"
+            10 -> title = "November"
+            11 -> title = "December"
+        }
+        return title
 
     }
 }

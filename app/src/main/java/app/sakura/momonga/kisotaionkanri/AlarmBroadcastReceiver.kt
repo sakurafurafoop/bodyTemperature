@@ -15,11 +15,7 @@ class AlarmBroadcastReceiver() : BroadcastReceiver() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context?, intent: Intent?) {
-
-        Log.d("Receive", "ok")
         sendNotification(context,"hoge","fuga")
-        Toast.makeText(context, "Received", Toast.LENGTH_LONG).show()
-
     }
 
 

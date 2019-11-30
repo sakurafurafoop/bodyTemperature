@@ -43,7 +43,7 @@ class GraphFragment : Fragment() {
         }
 
         setupLineChart()
-        lineChart.data = lineDataWithCount(30, 100f)
+        lineChart.data = lineData()
 
     }
 
@@ -88,7 +88,7 @@ class GraphFragment : Fragment() {
         }
     }
 
-    private fun lineDataWithCount(count: Int, range: Float):LineData {
+    private fun lineData():LineData {
 
         //val values = mutableListOf<Entry>()
         Realm.init(context)
@@ -99,20 +99,22 @@ class GraphFragment : Fragment() {
         val entryArray = mutableListOf<Entry>()
 
 
-        for (result in values) {
-            val entry = Entry(result.day.toFloat(),result.temperature.toFloat())
-            entryArray.add(entry)
-        }
+
 
         for (dayIndex in 1..graphLastDay) {
             val entry = Entry(dayIndex.toFloat(),0.toFloat())
             entryArray.add(entry)
         }
 
+        for (result in values) {
+            entryArray.removeAt(result.day - 1)
+            entryArray.add(result.day - 1,Entry(result.day.toFloat(),result.temperature.toFloat()))
+        }
+
 
 //        for ((index, element) in values.withIndex()) {
 //            val entry = Entry(index.toFloat(),element.temperature.toFloat())
-//            entryArray.add(entry) 
+//            entryArray.add(entry)
 //        }
         Log.d("entry",entryArray.toString())
 

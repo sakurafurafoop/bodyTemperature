@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.realm.Realm
+import java.util.*
 
 class ListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
@@ -17,6 +18,9 @@ class ListFragment : Fragment() {
     var listYear: Int = 0
     var listMonth: Int = 0
     var listLastDay: Int = 0
+    var listDay: Int = 0
+    var listWeekDay:Int = 0
+    val calendar = Calendar.getInstance()
     val listDataSet = mutableListOf<ListData>()
 
     //フラグメントのviewを生成するところ
@@ -38,20 +42,48 @@ class ListFragment : Fragment() {
             listYear = bundle.getInt("KEY_YEAR")
             listMonth = bundle.getInt("KEY_MONTH")
             listLastDay = bundle.getInt("KEY_LASTDAY")
+            listDay = bundle.getInt(("KEY_DAY"))
+            listWeekDay = bundle.getInt("KEY_WEEKDAY")
         }
+
         val resultResultArray = mRealm.where(SaveModel::class.java).equalTo("year", listYear)
             .equalTo("month", listMonth).findAll()
 
 
+
         for (dayIndex in 1..listLastDay) {
-            listDataSet.add(ListData(day = dayIndex, weekDay = "Mon"))
+            calendar.set(listYear,listMonth,dayIndex)
+            var week:String = ""
+            when (calendar.get(Calendar.DAY_OF_WEEK)){
+                Calendar.SUNDAY -> week = "Sun"
+                Calendar.MONDAY -> week = "Mon"
+                Calendar.TUESDAY -> week = "Tue"
+                Calendar.WEDNESDAY -> week = "Wed"
+                Calendar.THURSDAY -> week = "Thu"
+                Calendar.FRIDAY -> week = "Fri"
+                Calendar.SATURDAY -> week ="Sat"
+            }
+            listDataSet.add(ListData(day = dayIndex, weekDay = week))
         }
 
+
         for (result in resultResultArray) {
+            calendar.set(listYear,listMonth,result.day)
+            var week:String = ""
+            when (calendar.get(Calendar.DAY_OF_WEEK)){
+                Calendar.SUNDAY -> week = "Sun"
+                Calendar.MONDAY -> week = "Mon"
+                Calendar.TUESDAY -> week = "Tue"
+                Calendar.WEDNESDAY -> week = "Wed"
+                Calendar.THURSDAY -> week = "Thu"
+                Calendar.FRIDAY -> week = "Fri"
+                Calendar.SATURDAY -> week ="Sat"
+            }
+
             listDataSet[result.day - 1] =
                 ListData(
                     day = result.day,
-                    weekDay = "Mon",
+                    weekDay = week,
                     temperature = result.temperature.toFloat()
                 )
         }
@@ -72,12 +104,16 @@ class ListFragment : Fragment() {
         })
 
 
-
         recyclerView = view.findViewById<RecyclerView>(R.id.my_recycler_view).apply {
             setHasFixedSize(false)
             layoutManager = viewManager
             adapter = viewAdapter
         }
     }
+
+
+
+
+
 
 }
