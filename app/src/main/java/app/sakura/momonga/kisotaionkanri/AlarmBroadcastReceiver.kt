@@ -8,7 +8,9 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import java.util.*
 
 
 class AlarmBroadcastReceiver() : BroadcastReceiver() {
@@ -16,7 +18,27 @@ class AlarmBroadcastReceiver() : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context?, intent: Intent?) {
         sendNotification(context,"hoge","fuga")
+        //sendMoriningAlerm(context)
     }
+
+    fun sendMoriningAlerm(context: Context?){
+        var alarmCalendar = Calendar.getInstance()
+        alarmCalendar.add(Calendar.DAY_OF_MONTH,1)
+        alarmCalendar.set(
+            alarmCalendar.get(Calendar.YEAR),alarmCalendar.get(Calendar.MONTH),alarmCalendar.get(
+                Calendar.DAY_OF_MONTH),8,0,0
+        )
+
+        var nowCalendar = Calendar.getInstance()
+
+
+        val intent = Intent(context,AlarmBroadcastReceiver::class.java)
+        val pending = PendingIntent.getBroadcast(context,0,intent,0)
+
+        var am : AlarmManager = context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+        am.setExact(AlarmManager.RTC_WAKEUP,alarmCalendar.timeInMillis - nowCalendar.timeInMillis,pending)
+    }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)

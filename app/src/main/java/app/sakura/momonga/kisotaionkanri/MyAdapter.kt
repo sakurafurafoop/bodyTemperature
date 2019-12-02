@@ -19,6 +19,10 @@ open class MyAdapter(private val listDataSet:List<ListData>,private var listener
         holder.weekView.text = listDataSet[position].weekDay
         holder.temperatureView.text = listDataSet[position].temperature.toString()
         holder.plusminusView.text = listDataSet[position].difference.toString()
+        val num:Int = listDataSet[position].water
+        lateinit var view:View
+
+
         holder.itemView.setOnClickListener{
             listener.onClickLister(position)
         }

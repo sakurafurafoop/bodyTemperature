@@ -9,4 +9,5 @@ class MyViewHolder(itemView: View):RecyclerView.ViewHolder(itemView) {
     var weekView: TextView = itemView.findViewById(R.id.weekView)
     var temperatureView: TextView = itemView.findViewById(R.id.temperatureView)
     var plusminusView:TextView = itemView.findViewById(R.id.plusminusView)
+    //var waterView:TextView = itemView.findViewById(R.id.waterView)
 }

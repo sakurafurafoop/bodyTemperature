@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/white"
     tools:context=".PlusFragment">
 
 
@@ -12,24 +12,59 @@
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/taionkei"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <NumberPicker
-        android:id="@+id/numberPikumin"
+    <EditText
+        android:id="@+id/editText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="96dp"
+        android:layout_marginTop="44dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.232"
         app:layout_constraintStart_toEndOf="@+id/imageView2"
         app:layout_constraintTop_toTopOf="parent" />
+
+<!--    <ImageView-->
+<!--        android:id="@+id/water1"-->
+<!--        android:layout_width="35dp"-->
+<!--        android:layout_height="35dp"-->
+<!--        android:layout_marginStart="92dp"-->
+<!--        android:layout_marginTop="40dp"-->
+<!--        android:src="@drawable/shizuku"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editText" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/water2"-->
+<!--        android:layout_width="50dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:layout_marginStart="20dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:src="@drawable/shizuku"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/water1"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editText" />-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/water3"-->
+<!--        android:layout_width="65dp"-->
+<!--        android:layout_height="65dp"-->
+<!--        android:layout_marginStart="24dp"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:src="@drawable/shizuku"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.0"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/water2"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/editText"-->
+<!--        app:layout_constraintVertical_bias="0.0" />-->
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

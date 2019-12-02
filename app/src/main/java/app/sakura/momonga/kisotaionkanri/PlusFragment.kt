@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import io.realm.Realm
+import kotlinx.android.synthetic.main.fragment_plus.*
 import kotlinx.android.synthetic.main.fragment_plus.view.*
 import java.util.*
 
@@ -18,6 +19,7 @@ class PlusFragment : DialogFragment() {
     var plusMonth: Int = 0
     var plusDay: Int = 0
     var plusLastDay: Int = 0
+    var saveWater: Int = 0
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         Realm.init(context)
@@ -36,13 +38,21 @@ class PlusFragment : DialogFragment() {
 
             val inflater = requireActivity().layoutInflater;
             val view = inflater.inflate(R.layout.fragment_plus, null)
-            view.numberPikumin.maxValue = 45
-            view.numberPikumin.minValue = 30
-
-//           val items:Array<String> = Array(100){i -> "%.1f".format(i * 0.1)}
-//            numberPikumin.displayedValues = items
+//
+//            water1.setOnClickListener {
+//                saveWater = 1
+//            }
+//
+//            water2.setOnClickListener {
+//                saveWater = 2
+//            }
+//
+//            water3.setOnClickListener {
+//                saveWater = 3
+//            }
 
             builder.setView(view)
+
             builder.setPositiveButton("Yes",object :DialogInterface.OnClickListener{
                 override fun onClick(dialog: DialogInterface?, which: Int) {
                     mRealm.executeTransaction { realm ->
@@ -56,7 +66,9 @@ class PlusFragment : DialogFragment() {
                         saveModel.day = plusDay
                         saveModel.year = plusYear
                         saveModel.month = plusMonth
-                        saveModel.temperature = view.numberPikumin.value
+                        saveModel.temperature = view?.editText?.text.toString().toFloat()
+                        //saveModel.water = saveWater
+
                         realm.copyToRealm(saveModel)
                     }
                 }

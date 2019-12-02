@@ -1,7 +1,9 @@
 package app.sakura.momonga.kisotaionkanri
 
 import android.app.*
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -10,6 +12,18 @@ import androidx.annotation.RequiresApi
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
+import kotlin.intArrayOf as intArrayOf1
+import android.widget.ArrayAdapter
+import androidx.core.app.ComponentActivity
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.View
+import android.widget.AdapterView
+import android.widget.Spinner
+import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.TextView
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,6 +34,15 @@ class MainActivity : AppCompatActivity() {
     var lastDay: Int = 0
     var hour: Int = 0
     val calendar = Calendar.getInstance()
+    val dataStore:SharedPreferences by lazy {
+        getSharedPreferences("DataStore", MODE_PRIVATE)
+    }
+    val editor by lazy{
+        dataStore.edit()
+    }
+
+
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -33,8 +56,50 @@ class MainActivity : AppCompatActivity() {
         hour = calendar.get(Calendar.HOUR_OF_DAY)
         Log.d("hour",hour.toString())
         lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
-
         toolbar.setTitle(changeSetTitle(month))
+        sendMoriningAlerm()
+        var spinnerItems = arrayOf(month - 1,month,month + 1)
+
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            spinnerItems
+        )
+
+        spinner.setAdapter(adapter)
+
+        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+
+            }
+
+            //　アイテムが選択された時
+            fun onItemSelected(
+                parent: AdapterView<*>,
+                view: Context, position: Int, id: Long
+            ) {
+                val spinner = parent as Spinner
+                val item = spinner.selectedItem as String
+                val addNum:Int
+                addNum = month - position
+                calendar.add(month,addNum)
+                toolbar.setTitle(changeSetTitle(month))
+            }
+
+            //　アイテムが選択されなかった
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                //
+            }
+        }
+
+//        if(!dataStore.getBoolean("AlermSet",false)){
+//            sendMoriningAlerm()
+//        }
 
 
         //plusボタンを押す
@@ -47,7 +112,7 @@ class MainActivity : AppCompatActivity() {
             val plusFragment = PlusFragment()
             plusFragment.arguments = bundle
             plusFragment.show(supportFragmentManager,"tag")
-            sendMoriningAlerm()
+            //sendMoriningAlerm()
         }
 
 
@@ -105,13 +170,24 @@ class MainActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendMoriningAlerm(){
         var alarmCalendar = Calendar.getInstance()
-        alarmCalendar.add(Calendar.HOUR_OF_DAY,24)
+        //alarmCalendar.add(Calendar.DAY_OF_MONTH,0)
+        alarmCalendar.set(
+            alarmCalendar.get(Calendar.YEAR),alarmCalendar.get(Calendar.MONTH),alarmCalendar.get(Calendar.DAY_OF_MONTH),1,25,0
+        )
+        Log.d("alerm",alarmCalendar.toString())
+        Log.d("timeIn",alarmCalendar.timeInMillis.toString())
+        var nowCalendar = Calendar.getInstance()
+        Log.d("now",nowCalendar.timeInMillis.toString())
+
 
         val intent = Intent(this,AlarmBroadcastReceiver::class.java)
         val pending = PendingIntent.getBroadcast(this,0,intent,0)
 
         var am : AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        am.setExact(AlarmManager.RTC_WAKEUP,alarmCalendar.timeInMillis,pending)
+        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,60000,pending)
+        Log.d("calender",(alarmCalendar.timeInMillis - nowCalendar.timeInMillis).toString())
+        editor.putBoolean("AlermSet",true)
+        editor.apply()
     }
 
     fun sendEvningAlerm(){
@@ -137,4 +213,8 @@ class MainActivity : AppCompatActivity() {
         return title
 
     }
+
+
+
+
 }
