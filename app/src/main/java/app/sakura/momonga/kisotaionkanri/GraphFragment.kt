@@ -1,9 +1,7 @@
 package app.sakura.momonga.kisotaionkanri
 
-import android.content.Context
 import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -28,7 +26,6 @@ class GraphFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_graph, container, false)
 
     }
@@ -89,8 +86,6 @@ class GraphFragment : Fragment() {
     }
 
     private fun lineData():LineData {
-
-        //val values = mutableListOf<Entry>()
         Realm.init(context)
         val mRealm = Realm.getDefaultInstance()
         val values = mRealm.where(SaveModel::class.java).equalTo("year", graphYear)
@@ -98,27 +93,11 @@ class GraphFragment : Fragment() {
 
         val entryArray = mutableListOf<Entry>()
 
-
-
-
-        for (dayIndex in 1..graphLastDay) {
-            val entry = Entry(dayIndex.toFloat(),0.toFloat())
-            entryArray.add(entry)
-        }
-
         for (result in values) {
-            entryArray.removeAt(result.day - 1)
-            entryArray.add(result.day - 1,Entry(result.day.toFloat(),result.temperature.toFloat()))
+            entryArray.add(Entry(result.day.toFloat(),result.temperature))
         }
 
 
-//        for ((index, element) in values.withIndex()) {
-//            val entry = Entry(index.toFloat(),element.temperature.toFloat())
-//            entryArray.add(entry)
-//        }
-        Log.d("entry",entryArray.toString())
-
-        // create a dataset and give it a type
         val yVals = LineDataSet(entryArray,"").apply {
             axisDependency =  YAxis.AxisDependency.LEFT
             color = Color.BLACK

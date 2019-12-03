@@ -52,40 +52,48 @@ class ListFragment : Fragment() {
 
 
         for (dayIndex in 1..listLastDay) {
-            calendar.set(listYear,listMonth,dayIndex)
-            var week:String = ""
-            when (calendar.get(Calendar.DAY_OF_WEEK)){
-                Calendar.SUNDAY -> week = "Sun"
-                Calendar.MONDAY -> week = "Mon"
-                Calendar.TUESDAY -> week = "Tue"
-                Calendar.WEDNESDAY -> week = "Wed"
-                Calendar.THURSDAY -> week = "Thu"
-                Calendar.FRIDAY -> week = "Fri"
-                Calendar.SATURDAY -> week ="Sat"
-            }
-            listDataSet.add(ListData(day = dayIndex, weekDay = week))
+            listDataSet.add(ListData(day = dayIndex, weekDay = displayWeek(dayIndex)))
         }
 
-
         for (result in resultResultArray) {
-            calendar.set(listYear,listMonth,result.day)
-            var week:String = ""
-            when (calendar.get(Calendar.DAY_OF_WEEK)){
-                Calendar.SUNDAY -> week = "Sun"
-                Calendar.MONDAY -> week = "Mon"
-                Calendar.TUESDAY -> week = "Tue"
-                Calendar.WEDNESDAY -> week = "Wed"
-                Calendar.THURSDAY -> week = "Thu"
-                Calendar.FRIDAY -> week = "Fri"
-                Calendar.SATURDAY -> week ="Sat"
-            }
-
             listDataSet[result.day - 1] =
                 ListData(
                     day = result.day,
-                    weekDay = week,
-                    temperature = result.temperature.toFloat()
+                    weekDay = displayWeek(result.day),
+                    temperature = result.temperature
                 )
+        }
+
+        for (result in resultResultArray) {
+            var yesterdayCalendar:Calendar = Calendar.getInstance()
+            yesterdayCalendar.set(listYear,listMonth,result.day)
+            yesterdayCalendar.add(Calendar.DAY_OF_MONTH,-1)
+            val yesterdayData = mRealm.where(SaveModel::class.java).equalTo("year",yesterdayCalendar.get(Calendar.YEAR))
+                .equalTo("month",yesterdayCalendar.get(Calendar.MONTH))
+                .equalTo("day",yesterdayCalendar.get(Calendar.DAY_OF_MONTH)).findAll()
+
+            var diff:Float = 0F
+
+            if(yesterdayData != null){
+                for(yesterday in yesterdayData){
+                    diff = result.temperature - yesterday.temperature
+                }
+
+            }else{
+                diff = 0f
+            }
+
+            Log.d("yesterdayResult",yesterdayData.toString())
+            if (yesterdayData != null) {
+                listDataSet[result.day - 1] =
+                    ListData(
+                        day = result.day,
+                        temperature = result.temperature,
+                        weekDay = displayWeek(result.day),
+                        difference = diff
+                    )
+            }
+
         }
 
 
@@ -111,7 +119,20 @@ class ListFragment : Fragment() {
         }
     }
 
-
+    fun displayWeek(day:Int):String{
+        calendar.set(listYear,listMonth,day)
+        var week = ""
+        when (calendar.get(Calendar.DAY_OF_WEEK)){
+            Calendar.SUNDAY -> week = "Sun"
+            Calendar.MONDAY -> week = "Mon"
+            Calendar.TUESDAY -> week = "Tue"
+            Calendar.WEDNESDAY -> week = "Wed"
+            Calendar.THURSDAY -> week = "Thu"
+            Calendar.FRIDAY -> week = "Fri"
+            Calendar.SATURDAY -> week ="Sat"
+        }
+        return week
+    }
 
 
 

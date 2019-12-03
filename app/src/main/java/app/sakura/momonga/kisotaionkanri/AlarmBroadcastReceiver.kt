@@ -17,7 +17,7 @@ class AlarmBroadcastReceiver() : BroadcastReceiver() {
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context?, intent: Intent?) {
-        sendNotification(context,"hoge","fuga")
+        sendNotification(context,"体温を測りましょう","")
         //sendMoriningAlerm(context)
     }
 

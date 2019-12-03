@@ -11,8 +11,7 @@ open class SaveModel (
     open var year: Int = 0,
     open var month: Int = 0,
     open var day: Int = 0,
-    open var temperature: Float = 0F,
-    open var water:Int = 0
+    open var temperature: Float = 0F
 ) : RealmObject() {
 
 }
