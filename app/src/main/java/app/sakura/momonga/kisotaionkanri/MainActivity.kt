@@ -11,11 +11,6 @@ import androidx.annotation.RequiresApi
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
-import android.widget.ArrayAdapter
-import android.view.View
-import android.widget.AdapterView
-import android.widget.Spinner
-import android.widget.AdapterView.OnItemSelectedListener
 
 
 class MainActivity : AppCompatActivity() {
@@ -50,7 +45,11 @@ class MainActivity : AppCompatActivity() {
         hour = calendar.get(Calendar.HOUR_OF_DAY)
         lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)//今月のラストを取得
 
+        toolbar.setSubtitle(year.toString())
         toolbar.setTitle(changeSetTitle(month))
+
+
+        readList()
 
         //var spinnerItems = arrayOf("${month - 1}", "$month", "${month + 1}")
 
@@ -130,34 +129,13 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
 
                 R.id.graph -> {
-                    var bundle = Bundle()
-                    bundle.putInt("KEY_YEAR", year)
-                    bundle.putInt("KEY_MONTH", month)
-                    bundle.putInt("KEY_LASTDAY", lastDay)
-                    //Fragmentの追加や削除などの変更を行う時はTransactionを利用する
-                    val transaction = supportFragmentManager.beginTransaction()
-                    //Fragmentの作成
-                    val graphFragment = GraphFragment()
-                    graphFragment.arguments = bundle
-                    //Fragmentを組み込む(Fragmentの入るID,挿入するFragment)
-                    transaction.replace(R.id.container, graphFragment)
-                    //変更を保存する
-                    transaction.commit()
 
+                    readGraph()
                     //??何で返り値がこれ
                     return@setOnNavigationItemSelectedListener true
                 }
                 R.id.list -> {
-                    var bundle = Bundle()
-                    bundle.putInt("KEY_YEAR", year)
-                    bundle.putInt("KEY_MONTH", month)
-                    bundle.putInt("KEY_LASTDAY", lastDay)
-                    bundle.putInt("KEY_DAY", day)
-                    val transaction = supportFragmentManager.beginTransaction()
-                    val listFragment = ListFragment()
-                    listFragment.arguments = bundle
-                    transaction.replace(R.id.container, listFragment)
-                    transaction.commit()
+                    readList()
                     return@setOnNavigationItemSelectedListener true
                 }
                 else -> {
@@ -171,6 +149,35 @@ class MainActivity : AppCompatActivity() {
         Realm.init(this)
         //??意味が理解できない
         mRealm = Realm.getDefaultInstance()
+    }
+
+    fun readGraph(){
+        var bundle = Bundle()
+        bundle.putInt("KEY_YEAR", year)
+        bundle.putInt("KEY_MONTH", month)
+        bundle.putInt("KEY_LASTDAY", lastDay)
+        //Fragmentの追加や削除などの変更を行う時はTransactionを利用する
+        val transaction = supportFragmentManager.beginTransaction()
+        //Fragmentの作成
+        val graphFragment = GraphFragment()
+        graphFragment.arguments = bundle
+        //Fragmentを組み込む(Fragmentの入るID,挿入するFragment)
+        transaction.replace(R.id.container, graphFragment)
+        //変更を保存する
+        transaction.commit()
+    }
+
+    fun readList(){
+        var bundle = Bundle()
+        bundle.putInt("KEY_YEAR", year)
+        bundle.putInt("KEY_MONTH", month)
+        bundle.putInt("KEY_LASTDAY", lastDay)
+        bundle.putInt("KEY_DAY", day)
+        val transaction = supportFragmentManager.beginTransaction()
+        val listFragment = ListFragment()
+        listFragment.arguments = bundle
+        transaction.replace(R.id.container, listFragment)
+        transaction.commit()
     }
 
     override fun onDestroy() {

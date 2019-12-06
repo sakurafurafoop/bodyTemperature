@@ -89,13 +89,14 @@ class GraphFragment : Fragment() {
         Realm.init(context)
         val mRealm = Realm.getDefaultInstance()
         val values = mRealm.where(SaveModel::class.java).equalTo("year", graphYear)
-            .equalTo("month", graphMonth).findAll()
+            .equalTo("month", graphMonth).findAll().sort("day")
 
         val entryArray = mutableListOf<Entry>()
 
         for (result in values) {
             entryArray.add(Entry(result.day.toFloat(),result.temperature))
         }
+
 
 
         val yVals = LineDataSet(entryArray,"").apply {

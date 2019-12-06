@@ -93,7 +93,6 @@ class ListFragment : Fragment() {
                         difference = diff
                     )
             }
-
         }
 
 

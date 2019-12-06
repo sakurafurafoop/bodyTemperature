@@ -2,19 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="320dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="9dp"
+        android:foregroundGravity="center"
         app:cardBackgroundColor="#f9f9fe"
-        app:cardCornerRadius="4dp">
+        app:cardElevation="5dp"
+        app:cardCornerRadius="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -30,7 +31,7 @@
                     android:id="@+id/dateView"
                     android:layout_width="100dp"
                     android:layout_height="70dp"
-                    android:gravity="center"
+                    android:layout_gravity="right"
                     android:text="0"
                     android:textAlignment="center"
                     android:textSize="55sp" />
@@ -42,6 +43,13 @@
                     android:text="(Mon)"
                     android:textAlignment="center" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="|"
+                android:textSize="70sp" />
 
             <LinearLayout
                 android:layout_width="100dp"
