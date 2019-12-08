@@ -15,6 +15,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import io.realm.Realm
 import kotlinx.android.synthetic.main.fragment_graph.*
+import kotlinx.android.synthetic.main.list.*
 
 class GraphFragment : Fragment() {
     var graphYear: Int = 0
@@ -27,6 +28,7 @@ class GraphFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_graph, container, false)
+
 
     }
 

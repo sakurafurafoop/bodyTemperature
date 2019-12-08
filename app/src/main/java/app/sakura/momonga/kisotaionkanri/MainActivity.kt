@@ -7,6 +7,10 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.annotation.RequiresApi
 import io.realm.Realm
 import kotlinx.android.synthetic.main.activity_main.*
@@ -51,17 +55,17 @@ class MainActivity : AppCompatActivity() {
 
         readList()
 
-        //var spinnerItems = arrayOf("${month - 1}", "$month", "${month + 1}")
-
+//        var spinnerItems = arrayOf("${month + 1}", "$month", "${month - 1}")
+//
 //        val adapter = ArrayAdapter(
 //            this,
-//            android.R.layout.simple_spinner_item
-//            //spinnerItems
+//            android.R.layout.simple_spinner_item,
+//            spinnerItems
 //        )
-
+//
 //        spinner.setAdapter(adapter)
 //
-//        spinner.onItemSelectedListener = object : OnItemSelectedListener {
+//        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
 //            override fun onNothingSelected(parent: AdapterView<*>?) {
 //
 //            }
@@ -75,16 +79,12 @@ class MainActivity : AppCompatActivity() {
 //                val spinner = parent as Spinner
 //
 //                val item = spinner.selectedItem as String
-//                sendMoriningAlerm()
-////                addNum = month - position
+//
 //
 //                year = calendar.get(Calendar.YEAR)
 //                month = calendar.get(Calendar.MONTH)
 //                day = calendar.get(Calendar.DATE)
 //                hour = calendar.get(Calendar.HOUR_OF_DAY)
-//
-//                Log.d("position(before)", position.toString())
-//                Log.d("month(before)", month.toString())
 //
 //                val diff = month - item.toInt()
 //                calendar.add(Calendar.MONTH, diff)
@@ -94,17 +94,16 @@ class MainActivity : AppCompatActivity() {
 //                day = calendar.get(Calendar.DATE)
 //                hour = calendar.get(Calendar.HOUR_OF_DAY)
 //
-//                Log.d("position(after)", position.toString())
-//                Log.d("month(after)", month.toString())
 //                lastDay = Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH)
 //                toolbar.setTitle(changeSetTitle(month))
 //            }
-
-
+//
+//
 //        }
 
         if(!dataStore.getBoolean("AlermSet",false)){
-            sendMoriningAlerm()
+            sendMoriningAlerm(8)
+            sendEvningAlerm(22)
         }
 
 
@@ -187,16 +186,17 @@ class MainActivity : AppCompatActivity() {
 
     //??ここはうまくいかない
     @RequiresApi(Build.VERSION_CODES.O)
-    fun sendMoriningAlerm() {
+    fun sendMoriningAlerm(hour: Int) {
         var alarmCalendar = Calendar.getInstance()
         alarmCalendar.set(
             alarmCalendar.get(Calendar.YEAR),
             alarmCalendar.get(Calendar.MONTH),
             alarmCalendar.get(Calendar.DAY_OF_MONTH),
-            1,
-            25,
+            hour,
+            0,
             0
         )
+        alarmCalendar.add(Calendar.DAY_OF_MONTH,1)
 
         var nowCalendar = Calendar.getInstance()
 
@@ -204,7 +204,32 @@ class MainActivity : AppCompatActivity() {
         val pending = PendingIntent.getBroadcast(this, 0, intent, 0)
 
         var am: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-        am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, 60000, pending)
+        am.setRepeating(AlarmManager.RTC_WAKEUP, alarmCalendar.timeInMillis,AlarmManager.INTERVAL_DAY,pending)
+        Log.d("calender", (alarmCalendar.timeInMillis - nowCalendar.timeInMillis).toString())
+        editor.putBoolean("AlermSet", true)
+        editor.apply()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun sendEvningAlerm(hour: Int) {
+        var alarmCalendar = Calendar.getInstance()
+        alarmCalendar.set(
+            alarmCalendar.get(Calendar.YEAR),
+            alarmCalendar.get(Calendar.MONTH),
+            alarmCalendar.get(Calendar.DAY_OF_MONTH),
+            hour,
+            0,
+            0
+        )
+        alarmCalendar.add(Calendar.DAY_OF_MONTH,1)
+
+        var nowCalendar = Calendar.getInstance()
+
+        val intent = Intent(this, AlarmBroadEvning::class.java)
+        val pending = PendingIntent.getBroadcast(this, 0, intent, 0)
+
+        var am: AlarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
+        am.setRepeating(AlarmManager.RTC_WAKEUP, alarmCalendar.timeInMillis,AlarmManager.INTERVAL_DAY,pending)
         Log.d("calender", (alarmCalendar.timeInMillis - nowCalendar.timeInMillis).toString())
         editor.putBoolean("AlermSet", true)
         editor.apply()

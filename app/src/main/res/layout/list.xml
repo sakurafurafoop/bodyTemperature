@@ -44,13 +44,6 @@
                     android:textAlignment="center" />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="|"
-                android:textSize="70sp" />
-
             <LinearLayout
                 android:layout_width="100dp"
                 android:layout_height="100dp"
@@ -72,7 +65,7 @@
 
             <TextView
                 android:id="@+id/temperatureView"
-                android:layout_width="100dp"
+                android:layout_width="140dp"
                 android:layout_height="100dp"
                 android:gravity="center"
                 android:text="35.0"

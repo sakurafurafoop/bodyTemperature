@@ -1,26 +1,19 @@
 package app.sakura.momonga.kisotaionkanri
 
-import android.app.*
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
-import android.widget.Toast
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
-import java.util.*
 
-
-class AlarmBroadcastReceiver() : BroadcastReceiver() {
-
+class AlarmBroadEvning(): BroadcastReceiver()  {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onReceive(context: Context?, intent: Intent?) {
-        sendNotification(context,"体温を測りましょう","おはようございます")
-
+        sendNotification(context,"体温計を忘れずに置きましょう","こんばんは")
     }
-
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun sendNotification(context: Context?,contentTitle: String,contentText:String) {
@@ -49,5 +42,4 @@ class AlarmBroadcastReceiver() : BroadcastReceiver() {
             }.build()
         notificationManager.notify(1, notification)
     }
-
 }
